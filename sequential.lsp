@@ -54,7 +54,7 @@
   (setq index (+ index 1))
 
   (setq heightVector ())
-  (loop while (/= (nth index fileList) 32) do
+  (loop while (/= (nth index fileList) 10) do
     (setq heightVector (append heightVector (cons (- (nth index fileList) 48) nil)))
     (setq index (+ index 1))
   )
@@ -84,6 +84,7 @@
   ;; copy pixel data to data list
   (loop while (< index (list-length fileList)) do
     (setq data (append data (cons (nth index fileList) nil)))
+    (setq index (+ index 1))
   )
 
 )
@@ -105,6 +106,8 @@
 )
 
 
-(loadImage "image.pnm")
+;;(loadImage "auto.pnm")
+;;(width)
+;;(height)
 ;; (darkenImage data)
 ;; (saveImage "darkenedImage.pnm")
