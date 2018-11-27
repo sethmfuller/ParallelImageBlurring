@@ -118,7 +118,7 @@
     (setq num (mod tWidth 10))
     (setq num (+ num 48))
     (setq widthVector (append widthVector (cons num nil)))
-    (setq tWidth (/ tWidth 10))
+    (setq tWidth (floor tWidth 10))
   )
 
   (setq heightVector ())
@@ -127,7 +127,7 @@
     (setq num (mod tHeight 10))
     (setq num (+ num 48))
     (setq heightVector (append heightVector (cons num nil)))
-    (setq tHeight (/ tHeight 10))
+    (setq tHeight (floor tHeight 10))
   )
 
   ;; write the width and height (stored in the vectors backwards)
@@ -168,11 +168,11 @@
 
 
 
-
+;; given an individual pixel value, darken it
 (defun darken (pixel)
   (cond
-    ((< (- pixel 30) 0) 0)
-    (t (- pixel 30))
+    ((< (- pixel 50) 0) 0)
+    (t (- pixel 50))
   )
 )
 
@@ -181,12 +181,19 @@
 
 
 
-
+;; given a list of pixel data, return a new list that has darker values than the original
 (defun darkenImage (L)
-  (cons
-    (darken (car L))
-    (darkenImage (cdr L))
+
+  (setq newL ())
+  (setq size (list-length L))
+  (setq i 0)
+  (loop while (< i size) do
+    (setq newL (append newL (cons (darken (nth i L)) nil)))
+    (setq i (+ i 1))
   )
+
+  newL
+
 )
 
 
@@ -194,9 +201,7 @@
 
 
 
-
-;;(loadImage "auto.pnm")
-;;(width)
-;;(height)
-;; (darkenImage data)
-;; (saveImage "darkenedImage.pnm")
+;; run the functions to darken auto.pnm and save it as copy.pnm
+(loadImage "auto.pnm")
+(setq data (darkenImage data))
+(saveImage "copy.pnm")
