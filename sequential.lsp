@@ -205,3 +205,4 @@
 (loadImage "auto.pnm")
 (setq data (darkenImage data))
 (saveImage "copy.pnm")
+(quit)
