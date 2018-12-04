@@ -1,12 +1,18 @@
 "Parallel Image Darkening"
+"PARALLEL"
+
+
+(ql:quickload :lparallel)
+
+
+;; Create the worker threads
+(setf lparallel:*kernel* (lparallel:make-kernel 90))
+
 
 (defvar type 0)
 (defvar width 0)
 (defvar height 0)
 (defvar data ())
-
-
-
 
 
 
@@ -202,9 +208,16 @@
 
 
 ;; run the functions to darken auto.pnm and save it as copy.pnm
-(loadImage "mc.pnm")
-(time
-	(setq data (darkenImage data))
+(loadImage "auto.pnm")
+
+
+(time 
+	(lparallel:pdotimes (i (list-length data)) 
+		(setf (nth i data) (darken (nth i data)))
+	) 
 )
+
 (saveImage "copy.pnm")
-(quit)
+
+
+
